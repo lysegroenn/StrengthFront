@@ -22,7 +22,7 @@ const receiveRecords = (records) => (
 
 const getRecords = () => {
     return (dispatch) => {
-        fetch('https://www.lysegroenn.com/strength/testGet')
+        fetch('https://www.lysegroenn.com/strength/api/testGet')
         .then(res => res.json())
         .then(json => dispatch(receiveRecords(json.data)))
     }
@@ -33,7 +33,7 @@ const reducer = (state = {test: '', records: []}, action) => {
         case 'TEST' : 
             return {...state, test: action.data};
         case 'RECEIVE_RECORDS' :
-            return {...state, records: action.records}
+            return {...state, records: action.data}
         default:
             return state;
     }

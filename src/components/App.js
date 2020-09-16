@@ -9,15 +9,13 @@ class App extends React.Component {
     }
 
     render () {
+        console.log(this.props)
         return (
             <div>
-                <Sidebar />
-                <h1>Hej!</h1>
                 <button onClick={e => this.props.getRecords()}>Get</button>
                 <div>
-        {this.props.records.map((r) => <p>{r.stats.b}</p>)}
                 </div>
-                <Scrolltest />
+                <Scrolltest records={this.props.records} />
             </div>
         )
     }
