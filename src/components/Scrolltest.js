@@ -5,7 +5,7 @@ import styled from 'styled-components';
 const StyledScrolltest = styled.div`
 width: 500px;
 height: 100px;
-background-color: green;
+background-color: #c5eec5;
 
 `;
 
