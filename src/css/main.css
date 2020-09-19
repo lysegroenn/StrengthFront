@@ -30,34 +30,3 @@
     grid-row-start: 1;
     grid-row-end: 2;
 }
-
-@keyframes slide-in {
-    0% {transform: translateX(300px); opacity: 0}
-    100% {transform: translateX(0px); opacity: 1;} 
-
-}
-
-@keyframes slide-out {
-    
-    0% { opacity: 1; }
-    100% { opacity: 0;} 
-}
-
-
-.sliding-content-entering {
-	transition: 700ms;
-	transform: translateY(0);
-	opacity: 1;
-}
-
-.sliding-content-exiting {
-    
-	
-	opacity: 1;
-}
-
-.sliding-content-exited {
-    transition: 700ms;
-	transform: translateX(-300px);
-    opacity: 0;
-}

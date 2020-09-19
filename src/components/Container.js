@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Transition } from 'react-transition-group';
-import {TweenMax, Power3 } from 'gsap';
+import {gsap, TweenMax, Power3 } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+gsap.registerPlugin(ScrollTrigger);
 
 const StyledContainer = styled.div`
 height: 200vh;
@@ -11,53 +13,62 @@ background-color: #47474d;
 margin-bottom: 20px;
 display: grid;
 grid-template-columns: 20vw auto 20vw;
-grid-template-rows: 40vh 40vh auto;
+grid-template-rows: 60vh 20vh 20vh 20vh auto;
 `;
 
 
-const Container = ({ beginY, endY }) => {
-    const [scrollPosition, setScrollPosition] = useState(0);
-    const [slideIn, setSlideIn] = useState('out');
-
-    const handleScroll = () => {
-        const position = window.pageYOffset;
-        console.log(position)
-
-        if(position > beginY && position < endY) {
-            setSlideIn('in')   
-        } else {
-            setSlideIn('out')
-        }
-    }
-
+const Container = () => {
 
 const SlidingContent = styled.div`
-    grid-column-start: 2;
-    grid-column-end: 3;
-    grid-row-start: 3;
-    grid-row-end: 4;
 
-    height: 100%;
-    width: 100%;
+
+    height: 50%;
+    width: 50%;
     background-color: red;
     
 `;
 
     useEffect(() => {
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        }
+        console.log(SlideItem);
+        TweenMax.fromTo(SlideItem, 
+            {autoAlpha: 0, y: 200},
+            { autoAlpha: 1,
+              x: 400,
+              y: 0,
+              duration: .5,
+              scrollTrigger: { 
+                  trigger: SlideItem,
+                  start: 'top center+=200',
+                  toggleActions: 'play none none reverse' 
+                } 
+            });
+        TweenMax.fromTo(SlideItem2, 
+            {autoAlpha: 0, x: 800, y: 200},
+            { autoAlpha: 1,
+                x: 400,
+                y: 0,
+                duration: .5,
+                scrollTrigger: { 
+                    trigger: SlideItem2,
+                    start: 'top center+=200',
+                    toggleActions: 'play none none reverse' 
+                }
+        });
+              
     }, [])
 
-    const ons = () => console.log('hey');
+    let SlideItem = useRef(null);
+    let SlideItem2 = useRef(null);
+
     return (
         <StyledContainer>
-            <Transition in={slideIn == 'in'} timeout={700}>
+    { /*        <Transition in={slideIn == 'in'} timeout={700}>
                 {state => (
                     <SlidingContent className={`sliding-content-${state}`} />
                 )}
-            </Transition>
+                </Transition>  */}
+            <SlidingContent style={{'grid-column': '2/3', 'grid-row': '3/4'}} ref={el => {SlideItem2 =el} } />
+            <SlidingContent style={{'grid-column': '2/3', 'grid-row': '4/5'}} ref={el => {SlideItem = el} } />
         </StyledContainer>
     )
 };
