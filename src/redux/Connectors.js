@@ -20,6 +20,14 @@ const receiveRecords = (records) => (
     }
 )
 
+const appendRecords = (records) => (
+    {
+        type: 'APPEND_RECORDS',
+        data: records
+    }
+)
+
+
 const getRecords = () => {
     return (dispatch) => {
         fetch('https://www.lysegroenn.com/strength/api/testGet')
@@ -28,12 +36,23 @@ const getRecords = () => {
     }
 }
 
+const getMoreRecords = () => {
+    return (dispatch) => {
+        fetch('https://www.lysegroenn.com/strength/api/testGet')
+        .then(res => res.json())
+        .then(json => dispatch(appendRecords(json.data)))
+    }
+}
+
+
 const reducer = (state = {test: '', records: []}, action) => {
     switch(action.type) {
         case 'TEST' : 
             return {...state, test: action.data};
         case 'RECEIVE_RECORDS' :
             return {...state, records: action.data}
+        case 'APPEND_RECORDS' :
+            return {...state, records: state.records.concat(action.data)}
         default:
             return state;
     }
@@ -53,6 +72,9 @@ const mapDispatch = (dispatch) => {
         },
         getRecords: () => {
             dispatch(getRecords())
+        },
+        getMoreRecords: () => {
+            dispatch(getMoreRecords())
         }
     }
 }

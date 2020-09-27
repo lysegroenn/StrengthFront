@@ -1,6 +1,7 @@
 * {
     margin: 0;
     padding: 0;
+    
 }
 #app {
     background-color: #cbd3cb;
@@ -33,13 +34,14 @@
 #mock-container{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    
     grid-column: 2/3;
     grid-row: 5/6;
 }
 .mock-item{
-    background-color: aqua;
+    background-color: #57e4e4;
     height: 12vw;
     width: 12vw;
-    margin: 0 20 0 20;
+    margin: 0 20 40 20;
+
 }

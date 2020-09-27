@@ -6,17 +6,17 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 const StyledContainer = styled.div`
-height: 200vh;
+
 width: 100vw;
 background-color: #47474d;
-margin-bottom: 20px;
+
 display: grid;
 grid-template-columns: 20vw auto 20vw;
 grid-template-rows: 60vh 20vh 20vh 20vh auto;
 `;
 
 
-const Container = () => {
+const Container = ({records}) => {
 
 const SlidingContent = styled.div`
 
@@ -28,6 +28,8 @@ const SlidingContent = styled.div`
 `;
 
     useEffect(() => {
+
+
         console.log(SlideItem);
         TweenMax.fromTo(SlideItem, 
             {autoAlpha: 0, y: 200},
@@ -78,9 +80,9 @@ const SlidingContent = styled.div`
         })
 
 
-    }, [])
+    }, [records])
 
-    const mockContent = [1, 2, 3, 4, 5, 6, 7, 8];
+    const mockContent = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     let SlideItem = useRef(null);
     let SlideItem2 = useRef(null);
 
@@ -103,7 +105,7 @@ const SlidingContent = styled.div`
             <SlidingContent style={{'gridColumn': '2/3', 'gridRow': '3/4'}} ref={el => {SlideItem2 =el} }></SlidingContent>
             <SlidingContent style={{'gridColumn': '2/3', 'gridRow': '4/5'}} ref={el => {SlideItem = el} } />
             <div id='mock-container'>
-                {mockContent.map((e, i) => (<div className='mock-item' ref={addToRefs} key={i}>{e}</div>))}
+                {records.map(({stats}, i) => (<div className='mock-item' ref={addToRefs} key={i}>{stats.b}</div>))}
             </div>
         </StyledContainer>
     )
