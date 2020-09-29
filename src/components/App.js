@@ -1,5 +1,5 @@
 import React, { Component, useState, useEffect } from 'react';
-import debounce from 'lodash.debounce'; 
+import debounce from 'lodash.debounce';
 import Container from './Container';
 import Scrolltest from './Scrolltest';
 import Sidebar from './Sidebar';
@@ -9,18 +9,27 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.props.getRecords()
+        this.setRef = this.setRef.bind(this);
 
-        window.onscroll = debounce(() => {
-            if(
+        window.onscroll = () => {
+            
+            //console.log(document.scrollingElement.scrollTop)
+            this.pathRef.style.strokeDashoffset = 3000-(document.scrollingElement.scrollTop+200);
+            /*if(
                 window.innerHeight - document.scrollingElement.scrollTop
                 < 350
                 //=== document.scrollingElement.offsetHeight
             ) {
                 console.log(document.scrollingElement.offsetHeight - document.scrollingElement.scrollTop)
                 this.props.getMoreRecords()
-            }
-        }, 100)
+            } */
+        }
     }
+
+    setRef(input) {
+        this.pathRef = input;
+    }
+
 
  
     render () {
@@ -28,7 +37,7 @@ class App extends React.Component {
         return (
             <div>
                 <button onClick={e => this.props.getMoreRecords()}>Get</button>
-                <Container records={this.props.records}>
+                <Container records={this.props.records} setRef={this.setRef}>
                     <div>
                     </div>
                     <Scrolltest records={this.props.records} />

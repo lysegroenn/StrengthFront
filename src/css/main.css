@@ -45,3 +45,14 @@
     margin: 0 20 40 20;
 
 }
+#path{
+    stroke-dasharray:3000;
+    stroke-dashoffset:3000;
+    
+}
+
+@keyframes dash {
+    to {
+        stroke-dashoffset: 0;
+    }
+}

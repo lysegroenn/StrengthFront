@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import {gsap, TweenMax, Power3 } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import GenerateSVG from './Graph.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,11 +16,7 @@ grid-template-columns: 20vw auto 20vw;
 grid-template-rows: 60vh 20vh 20vh 20vh auto;
 `;
 
-
-const Container = ({records}) => {
-
 const SlidingContent = styled.div`
-
 
     height: 50%;
     width: 50%;
@@ -27,39 +24,17 @@ const SlidingContent = styled.div`
     
 `;
 
+const Container = ({records, setRef}) => {
+
+
     useEffect(() => {
 
-
-        console.log(SlideItem);
-        TweenMax.fromTo(SlideItem, 
-            {autoAlpha: 0, y: 200},
-            { autoAlpha: 1,
-              x: 400,
-              y: 0,
-              duration: .5,
-              scrollTrigger: { 
-                  trigger: SlideItem,
-                  start: 'top center+=200',
-                  toggleActions: 'play none none reverse' 
-                } 
-            });
-        TweenMax.fromTo(SlideItem2, 
-            {autoAlpha: 0, x: 800, y: 200},
-            { autoAlpha: 1,
-                x: 400,
-                y: 0,
-                duration: .5,
-                scrollTrigger: { 
-                    trigger: SlideItem2,
-                    start: 'top center+=200',
-                    toggleActions: 'play none none reverse' 
-                }
-        });
+        console.log(mockRefs)
 
         mockRefs.current.forEach((el, index) => {
 
             const isLeft = ((index%4)<2)
-            const initX = isLeft ? -200 : 200;
+            const initX = -200//isLeft ? -200 : 200;
             TweenMax.fromTo(el, {
                 autoAlpha: 0,
                 x: initX
@@ -71,7 +46,7 @@ const SlidingContent = styled.div`
                 scrollTrigger: {
                     id: `moock-item${index}`,
                     trigger: el,
-                    start: 'top center+=200',
+                    start: 'top center',
                     toggleActions: 'play none none reverse',
                     markers: false
                 }
@@ -81,10 +56,6 @@ const SlidingContent = styled.div`
 
 
     }, [records])
-
-    const mockContent = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    let SlideItem = useRef(null);
-    let SlideItem2 = useRef(null);
 
     const mockRefs = useRef([]);
     mockRefs.current = [];
@@ -97,16 +68,8 @@ const SlidingContent = styled.div`
 
     return (
         <StyledContainer>
-    { /*        <Transition in={slideIn == 'in'} timeout={700}>
-                {state => (
-                    <SlidingContent className={`sliding-content-${state}`} />
-                )}
-                </Transition>  */}
-            <SlidingContent style={{'gridColumn': '2/3', 'gridRow': '3/4'}} ref={el => {SlideItem2 =el} }></SlidingContent>
-            <SlidingContent style={{'gridColumn': '2/3', 'gridRow': '4/5'}} ref={el => {SlideItem = el} } />
-            <div id='mock-container'>
-                {records.map(({stats}, i) => (<div className='mock-item' ref={addToRefs} key={i}>{stats.b}</div>))}
-            </div>
+            <GenerateSVG points={[200, 300, 200, 400, 200]} setRef={setRef} addToRefs={addToRefs} />
+
         </StyledContainer>
     )
 };
