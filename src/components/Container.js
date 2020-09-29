@@ -10,7 +10,7 @@ const StyledContainer = styled.div`
 
 width: 100vw;
 background-color: #47474d;
-
+padding-top: 500px;
 display: grid;
 grid-template-columns: 20vw auto 20vw;
 grid-template-rows: 60vh 20vh 20vh 20vh auto;
@@ -29,10 +29,9 @@ const Container = ({records, setRef}) => {
 
     useEffect(() => {
 
-        console.log(mockRefs)
+        console.log(textRefs)
 
-        mockRefs.current.forEach((el, index) => {
-
+        lineRefs.current.forEach((el, index) => {
             const isLeft = ((index%4)<2)
             const initX = -200//isLeft ? -200 : 200;
             TweenMax.fromTo(el, {
@@ -44,31 +43,60 @@ const Container = ({records, setRef}) => {
                 ease: 'none',
                 x: 0,
                 scrollTrigger: {
-                    id: `moock-item${index}`,
+                    id: `line${index}`,
                     trigger: el,
-                    start: 'top center',
+                    start: 'top center+=300',
                     toggleActions: 'play none none reverse',
                     markers: false
                 }
             })
+        })
 
+        textRefs.current.forEach((el, index) => {
+            const isLeft = ((index%4)<2)
+            const initX = -200//isLeft ? -200 : 200;
+            TweenMax.fromTo(el, {
+                autoAlpha: 0,
+                y: initX
+            }, {
+                duration: .35,
+                autoAlpha: 1,
+                ease: 'none',
+                y: 0,
+                scrollTrigger: {
+                    id: `text${index}`,
+                    trigger: el,
+                    start: 'top center',
+                    toggleActions: 'play none none reverse',
+                    markers: true
+                }
+            })
         })
 
 
     }, [records])
 
-    const mockRefs = useRef([]);
-    mockRefs.current = [];
+    const lineRefs = useRef([]);
+    lineRefs.current = [];
+    const textRefs = useRef([]);
+    textRefs.current = [];
 
-    const addToRefs = (el) => {
-        if(el && !mockRefs.current.includes(el)){
-            mockRefs.current.push(el);
+    const addToLineRefs = (el) => {
+        if(el && !lineRefs.current.includes(el)){
+            lineRefs.current.push(el);
         }
     }
 
+    const addToTextRefs = (el) => {
+        if(el && !textRefs.current.includes(el)){
+            textRefs.current.push(el);
+        }
+    }
+
+
     return (
         <StyledContainer>
-            <GenerateSVG points={[200, 300, 200, 400, 200]} setRef={setRef} addToRefs={addToRefs} />
+            <GenerateSVG points={[200, 300, 200, 400, 200]} setRef={setRef} addToLineRefs={addToLineRefs} addToTextRefs={addToTextRefs} />
 
         </StyledContainer>
     )
