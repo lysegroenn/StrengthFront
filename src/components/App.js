@@ -8,11 +8,10 @@ import '../css/main.css'
 class App extends React.Component {
     constructor(props) {
         super(props);
-        this.props.getRecords()
         this.setRef = this.setRef.bind(this);
+        this.props.getTempsStockholm()
 
         window.onscroll = () => {
-            
             //console.log(document.scrollingElement.scrollTop)
             this.pathRef.style.strokeDashoffset = 3000-(document.scrollingElement.scrollTop+200);
         }
@@ -25,13 +24,13 @@ class App extends React.Component {
 
  
     render () {
-        console.log(this.props)
+        console.log(this.props.tempStockholm)
         return (
             <div>
-                <Container records={this.props.records} setRef={this.setRef}>
+                <Container setRef={this.setRef} tempStockholm={this.props.tempStockholm}>
                     <div>
                     </div>
-                    <Scrolltest records={this.props.records} />
+                    <Scrolltest />
                 </Container>
 
             </div>

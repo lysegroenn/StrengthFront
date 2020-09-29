@@ -3,7 +3,7 @@ import { createStore, applyMiddleware, bindActionCreators } from 'redux';
 import thunk from 'redux-thunk';
 import App from '../components/App';
 
-
+const BaseURL = 'https://opendata-download-metfcst.smhi.se';
 
 // Test action
 const test = (medd) => (
@@ -13,46 +13,49 @@ const test = (medd) => (
     }
 )
 
-const receiveRecords = (records) => (
+
+const receiveTempsStockholm = (temps) => (
     {
-        type: 'RECEIVE_RECORDS',
-        data: records
+        type: 'RECEIVE_STOCKHOLM',
+        data: temps
     }
 )
 
-const appendRecords = (records) => (
-    {
-        type: 'APPEND_RECORDS',
-        data: records
-    }
-)
-
-
-const getRecords = () => {
+const getTempsStockholm = () => {
     return (dispatch) => {
-        fetch('https://www.lysegroenn.com/strength/api/testGet')
+        fetch(BaseURL + '/api/category/pmp3g/version/2/geotype/point/lon/18.037834/lat/59.300078/data.json')
         .then(res => res.json())
-        .then(json => dispatch(receiveRecords(json.data)))
+        .then(data => dispatch(receiveTempsStockholm(extractTemps(data.timeSeries))))
+        .catch(err => console.log(err))
     }
 }
 
-const getMoreRecords = () => {
-    return (dispatch) => {
-        fetch('https://www.lysegroenn.com/strength/api/testGet')
-        .then(res => res.json())
-        .then(json => dispatch(appendRecords(json.data)))
+const extractTemps = (data) => {
+    try {
+        let temps = [];
+        for(let i = 0 ; i < data.length ; i++) {
+            if (data[i].validTime.slice(10, 16) == "T12:00") { 
+               data[i].parameters.forEach((el) => {
+                   if (el.name == "t") temps.push(el.values[0])    //; console.log(`Pushing temp: ${el.values[0]}`)}
+            })
+          }
+        }
+        return temps;        
+    } catch (error) {
+        console.log(`ERROR FROM REDUX: ${error}`)
+        return ['Höööj'];
     }
+
+ //   console.log(temps.length)
 }
 
 
-const reducer = (state = {test: '', records: []}, action) => {
+const reducer = (state = {test: '', tempStockholm: []}, action) => {
     switch(action.type) {
         case 'TEST' : 
             return {...state, test: action.data};
-        case 'RECEIVE_RECORDS' :
-            return {...state, records: action.data}
-        case 'APPEND_RECORDS' :
-            return {...state, records: state.records.concat(action.data)}
+        case 'RECEIVE_STOCKHOLM' :
+            return {...state, tempStockholm: action.data}
         default:
             return state;
     }
@@ -61,7 +64,7 @@ const reducer = (state = {test: '', records: []}, action) => {
 const mapState = (state) => {
     return {
         test: state.test,
-        records: state.records
+        tempStockholm: state.tempStockholm
     }
 }
 
@@ -70,11 +73,8 @@ const mapDispatch = (dispatch) => {
         test: (medd) => {
             dispatch(test(medd))
         },
-        getRecords: () => {
-            dispatch(getRecords())
-        },
-        getMoreRecords: () => {
-            dispatch(getMoreRecords())
+        getTempsStockholm: () => {
+            dispatch(getTempsStockholm())
         }
     }
 }

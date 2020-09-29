@@ -24,7 +24,7 @@ const SlidingContent = styled.div`
     
 `;
 
-const Container = ({records, setRef}) => {
+const Container = ({ setRef, tempStockholm }) => {
 
 
     useEffect(() => {
@@ -68,13 +68,13 @@ const Container = ({records, setRef}) => {
                     trigger: el,
                     start: 'top center',
                     toggleActions: 'play none none reverse',
-                    markers: true
+                    markers: false
                 }
             })
         })
 
 
-    }, [records])
+    }, [])
 
     const lineRefs = useRef([]);
     lineRefs.current = [];
@@ -96,7 +96,7 @@ const Container = ({records, setRef}) => {
 
     return (
         <StyledContainer>
-            <GenerateSVG points={[200, 300, 200, 400, 200]} setRef={setRef} addToLineRefs={addToLineRefs} addToTextRefs={addToTextRefs} />
+            <GenerateSVG points={tempStockholm} setRef={setRef} addToLineRefs={addToLineRefs} addToTextRefs={addToTextRefs} />
 
         </StyledContainer>
     )
