@@ -14,7 +14,7 @@ const GenerateSVG = ({ points, setRef, addToLineRefs, addToTextRefs }) => {
     console.log(points.length)
     for(let i = 0 ; i < points.length ; i++) {
         let curve = ' Q';
-        let x1Px = points[i]>points[i-1] ? points[i]*1.2*fact.toString() : points[i]*0.8*fact.toString(); 
+        let x1Px = points[i]>=points[i-1] ? points[i]*1.2*fact.toString() : points[i]*0.8*fact.toString(); 
         //let y1Px = ((i)*250+350).toString();
         let x2Px = points[i]*fact.toString();
         let y2Px = ((i)*500+600).toString();
