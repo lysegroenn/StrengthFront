@@ -11,9 +11,7 @@ const StyledContainer = styled.div`
 width: 100vw;
 background-color: #47474d;
 padding-top: 500px;
-display: grid;
-grid-template-columns: 20vw auto 20vw;
-grid-template-rows: 60vh 20vh 20vh 20vh auto;
+
 `;
 
 const SlidingContent = styled.div`
@@ -74,7 +72,7 @@ const Container = ({ setRef, tempStockholm }) => {
         })
 
 
-    }, [])
+    }, [tempStockholm])
 
     const lineRefs = useRef([]);
     lineRefs.current = [];
