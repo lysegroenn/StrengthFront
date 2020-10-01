@@ -1,6 +1,6 @@
 import React from 'react';
 
-const GenerateSVG = ({ points, setRef, addToLineRefs, addToTextRefs }) => {
+const GenerateSVG = ({ points, dates, setRef, addToLineRefs, addToTextRefs }) => {
     let Avg; 
     if(points.length > 0) {
         Avg = (points.reduce((acc, curr) => (acc + curr), 0))/points.length;
@@ -9,9 +9,10 @@ const GenerateSVG = ({ points, setRef, addToLineRefs, addToTextRefs }) => {
     }
     let fact = 300/Avg;
 
-    console.log(`Generate fact: ${fact}`)
+    //console.log(`Generate fact: ${fact}`)
     let Path = 'M100 100';
-    console.log(points.length)
+    //console.log(points.length)
+    //console.log(`dates: ${dates.length}`)
     for(let i = 0 ; i < points.length ; i++) {
         let curve = ' Q';
         let x1Px = points[i]>=points[i-1] ? points[i]*1.2*fact.toString() : points[i]*0.8*fact.toString(); 
@@ -31,12 +32,13 @@ const GenerateSVG = ({ points, setRef, addToLineRefs, addToTextRefs }) => {
 
         Path += curve; 
     }
-    console.log(Path)
+    //console.log(Path)
     return (
-        <svg width="800" height="4000">
+        <svg width="1000" height="8000">
             <path ref={setRef} id="path" stroke="black" strokeWidth="5" fill="none" d={Path} />
-            {points.map((p,i) => (<line ref={addToLineRefs} stroke="black" strokeWidth="5" fills="none" x1="0" y1={i*500+100} x2="600" y2={i*500+100} />))}
-    {points.map((p,i) => (<text ref={addToTextRefs} fontSize={30} x={p*fact+20} y={i*500+590} >{p}</text>))}
+            {points.map((p,i) => (<line ref={addToLineRefs} stroke="black" strokeWidth="5" fills="none" x1="0" y1={i*500+600} x2="600" y2={i*500+600} />))}
+            {points.map((p,i) => (<text ref={addToTextRefs} fontSize={30} x={p*fact+20} y={i*500+590} >{p}</text>))}
+            {dates.map((d,i) => (<text ref={addToTextRefs} fontSize={30} x={650} y={i*500+610} >{d.slice(0, 10)}</text>))}
 
         </svg>
     )

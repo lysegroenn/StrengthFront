@@ -27,7 +27,7 @@ class App extends React.Component {
         console.log(this.props.tempStockholm)
         return (
             <div>
-                <Container setRef={this.setRef} tempStockholm={this.props.tempStockholm}>
+                <Container setRef={this.setRef} tempStockholm={this.props.tempStockholm} dates={this.props.dates} >
                     <div>
                     </div>
                     <Scrolltest />
