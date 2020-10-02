@@ -8,26 +8,32 @@ import '../css/main.css'
 class App extends React.Component {
     constructor(props) {
         super(props);
-        this.setRef = this.setRef.bind(this);
+        this.setRefStockholm = this.setRefStockholm.bind(this);
+        this.setRefVara = this.setRefVara.bind(this);
         this.props.getTempsStockholm()
+        this.props.getTempsVara()
 
         window.onscroll = () => {
             //console.log(document.scrollingElement.scrollTop)
-            this.pathRef.style.strokeDashoffset = 3000-(document.scrollingElement.scrollTop+200);
+            this.pathRefStockholm.style.strokeDashoffset = 3000-(document.scrollingElement.scrollTop+200);
+            this.pathRefVara.style.strokeDashoffset = 3000-(document.scrollingElement.scrollTop+200);
         }
     }
 
-    setRef(input) {
-        this.pathRef = input;
+    setRefStockholm(input) {
+        this.pathRefStockholm = input;
     }
 
+    setRefVara(input) {
+        this.pathRefVara = input;
+    }
 
  
     render () {
-        console.log(this.props.tempStockholm)
+        console.log(this.props.tempVara)
         return (
             <div>
-                <Container setRef={this.setRef} tempStockholm={this.props.tempStockholm} dates={this.props.dates} >
+                <Container setRefStockholm={this.setRefStockholm} setRefVara={this.setRefVara} tempStockholm={this.props.tempStockholm} tempVara={this.props.tempVara} dates={this.props.dates} >
                     <div>
                     </div>
                     <Scrolltest />

@@ -22,7 +22,7 @@ const SlidingContent = styled.div`
     
 `;
 
-const Container = ({ setRef, tempStockholm, dates }) => {
+const Container = ({ setRefStockholm, setRefVara, tempStockholm, tempVara, dates }) => {
 
 
     useEffect(() => {
@@ -94,7 +94,7 @@ const Container = ({ setRef, tempStockholm, dates }) => {
 
     return (
         <StyledContainer>
-            <GenerateSVG points={tempStockholm} dates={dates} setRef={setRef} addToLineRefs={addToLineRefs} addToTextRefs={addToTextRefs} />
+            <GenerateSVG pointsStockholm={tempStockholm} pointsVara={tempVara} dates={dates} setRefStockholm={setRefStockholm} setRefVara={setRefVara} addToLineRefs={addToLineRefs} addToTextRefs={addToTextRefs} />
 
         </StyledContainer>
     )

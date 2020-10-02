@@ -21,6 +21,12 @@ const receiveTempsStockholm = (temps) => (
     }
 )
 
+const receiveTempsVara = (temps) => (
+    {
+        type: 'RECEIVE_VARA',
+        data: temps
+    }
+)
 
 const receiveDates = (dates) => (
     {
@@ -42,6 +48,19 @@ const getTempsStockholm = () => {
         .catch(err => console.log(err))
     }
 }
+
+const getTempsVara = () => {
+    return (dispatch) => {
+        fetch(BaseURL + '/api/category/pmp3g/version/2/geotype/point/lon/12.956657/lat/58.263377/data.json')
+        .then(res => res.json())
+        .then(data => {
+            let {temps, dates} = extractTemps(data.timeSeries);
+            dispatch(receiveTempsVara(temps));
+        })
+        .catch(err => console.log(err))  
+    }
+}
+
 
 const extractTemps = (data) => {
     try {
@@ -65,7 +84,7 @@ const extractTemps = (data) => {
 }
 
 
-const reducer = (state = {test: '', tempStockholm: [], dates: []}, action) => {
+const reducer = (state = {test: '', tempStockholm: [], tempVara: [], dates: []}, action) => {
     switch(action.type) {
         case 'TEST' : 
             return {...state, test: action.data};
@@ -73,6 +92,8 @@ const reducer = (state = {test: '', tempStockholm: [], dates: []}, action) => {
             return {...state, tempStockholm: action.data}
         case 'RECEIVE_DATES' :
             return {...state, dates: action.data}
+        case 'RECEIVE_VARA' :
+            return {...state, tempVara: action.data}
         default:
             return state;
     }
@@ -82,6 +103,7 @@ const mapState = (state) => {
     return {
         test: state.test,
         tempStockholm: state.tempStockholm,
+        tempVara: state.tempVara,
         dates: state.dates
     }
 }
@@ -93,6 +115,9 @@ const mapDispatch = (dispatch) => {
         },
         getTempsStockholm: () => {
             dispatch(getTempsStockholm())
+        },
+        getTempsVara: () => {
+            dispatch(getTempsVara())
         }
     }
 }
