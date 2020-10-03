@@ -2,6 +2,7 @@ import React from 'react';
 
 const GenerateSVG = ({ pointsStockholm, pointsVara, dates, setRefStockholm, setRefVara, addToLineRefs, addToTextRefs }) => {
     let Avg; 
+    let highestX = getHighest(pointsStockholm, pointsVara);
     if(pointsStockholm.length > 0) {
         Avg = (pointsStockholm.reduce((acc, curr) => (acc + curr), 0))/pointsStockholm.length;
     } else {
@@ -53,6 +54,8 @@ const GenerateSVG = ({ pointsStockholm, pointsVara, dates, setRefStockholm, setR
 
         PathVara += curve; 
     }
+
+
     console.log(PathStockholm)
     console.log(PathVara)
     return (
@@ -60,11 +63,20 @@ const GenerateSVG = ({ pointsStockholm, pointsVara, dates, setRefStockholm, setR
             <path ref={setRefStockholm} id="pathStockholm" stroke="blue" strokeWidth="5" fill="none" d={PathStockholm} />
             <path ref={setRefVara} id="pathVara" stroke="red" strokeWidth="5" fill="none" d={PathVara} />
             {pointsStockholm.map((p,i) => (<line ref={addToLineRefs} stroke="black" strokeWidth="5" fills="none" x1="0" y1={i*500+600} x2="600" y2={i*500+600} />))}
-            {pointsStockholm.map((p,i) => (<text ref={addToTextRefs} fontSize={30} x={p*fact+20} y={i*500+590} >{p}</text>))}
+            {pointsStockholm.map((p,i) => (<text ref={addToTextRefs} fill={"blue"} fontSize={30} x={highestX[i]*fact+20} y={i*500+590} >{p}</text>))}
+            {pointsVara.map((p,i) => (<text ref={addToTextRefs} fill={"red"} fontSize={30} x={highestX[i]*fact+20} y={i*500+630} >{p}</text>))}
             {dates.map((d,i) => (<text ref={addToTextRefs} fontSize={30} x={650} y={i*500+610} >{d.slice(0, 10)}</text>))}
 
         </svg>
     )
+}
+
+const getHighest = (arr1, arr2) => {
+    let retArr = [];
+    for(let i = 0 ; i < arr1.length ; i++) {
+        retArr.push(arr1[i] > arr2[i] ? arr1[i] : arr2[i])
+    }
+    return retArr;
 }
 
 export default GenerateSVG;

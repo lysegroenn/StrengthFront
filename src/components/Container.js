@@ -72,7 +72,7 @@ const Container = ({ setRefStockholm, setRefVara, tempStockholm, tempVara, dates
         })
 
 
-    }, [tempStockholm])
+    }, [tempStockholm, tempVara])
 
     const lineRefs = useRef([]);
     lineRefs.current = [];
